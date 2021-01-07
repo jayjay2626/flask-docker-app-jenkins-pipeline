@@ -22,9 +22,11 @@ pipeline {
                 sh 'docker image tag $DOCKER_HUB_REPO:latest $DOCKER_HUB_REPO:$BUILD_NUMBER'
 
                 //  Pushing Image to Repository
-                sh 'docker push rangeley826/flask-docker-app-jenkins:$BUILD_NUMBER'
-                sh 'docker push rangeley826/flask-docker-app-jenkins:latest'
-                
+                docker.withRegistry( '', REGISTRY_CREDENTIAL) {
+	                sh 'docker push rangeley826/flask-docker-app-jenkins:$BUILD_NUMBER'
+			sh 'docker push rangeley826/flask-docker-app-jenkins:latest'
+                }
+
                 echo "Image built and pushed to repository"
             }
         }
